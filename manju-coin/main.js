@@ -29,7 +29,7 @@ class Blockchain {
 
     addBlock(newBlock) {
         // new block must point to the previous block
-        newBlock.previousHash = this.getLatestBlock()
+        newBlock.previousHash = this.getLatestBlock().hash
         newBlock.hash = newBlock.calculateHash()
         // in reality, this requires lot more work to add a new block
         this.chain.push(newBlock)
@@ -41,7 +41,7 @@ class Blockchain {
             const currentBlock = this.chain[i]
             const previousBlock = this.chain[i - 1]
 
-            if (currentBlock.hash != currentBlock.calculateHash()) {
+            if (currentBlock.hash !== currentBlock.calculateHash()) {
                 return false
             }
 
@@ -49,15 +49,15 @@ class Blockchain {
             if (currentBlock.previousHash !== previousBlock.hash) {
                 return false
             }
-
-            return true
         }
+
+        return true
     }
 }
 
 let manjuCoin = new Blockchain();
 manjuCoin.addBlock(new Block(1, '01-02-2018', { cash: 10 }))
-manjuCoin.addBlock(new Block(1, '01-03-2018', { cash: 12 }))
+manjuCoin.addBlock(new Block(2, '01-03-2018', { cash: 12 }))
 
-// console.log('Manju Coin ', JSON.stringify(manjuCoin, null, 4))
+console.log('Manju Coin ', JSON.stringify(manjuCoin, null, 4))
 console.log('Is chain valid', manjuCoin.isChainValid())
